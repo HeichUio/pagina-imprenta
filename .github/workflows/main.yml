@@ -1,0 +1,15 @@
+name: Prueba automatica
+
+on:
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar codigo
+        uses: actions/checkout@v3
+
+      - name: Mostrar mensaje
+        run: echo "La prueba funciona correctamente"
