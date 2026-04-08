@@ -1,0 +1,16 @@
+name: Prueba automatica
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v3
+
+      - name: Mostrar mensaje
+        run: echo "La automatizacion funciona correctamente"
