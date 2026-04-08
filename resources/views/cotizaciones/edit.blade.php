@@ -1,37 +1,34 @@
-<h1> Editar cotizacion</h1>
+@extends('layouts.admin')
 
-<form action="{{ route('cotizaciones.update', $cotizacion) }}" method="POST"> 
-    @csrf
-    @method('PUT')
-    
-    <label>Fecha de pedido:</label><br>
-    <input type="date" name="fecha_creacion" value="{{ $cotizacion->fecha_creacion}}"><br><br>
+@section('content')
 
-    <label>Fecha de vigencia:</label><br>
-    <input type="date" name="fecha_vigencia" value="{{ $cotizacion->fecha_vigencia}}"><br><br>
+<h1>Editar Cotización</h1>
 
-    <label>Total estimado:</label><br>
-    <input type="number"  step="0.01" name="total_estimado" value="{{ $cotizacion->total_estimado}}"><br><br>
+<div class="form-box">
+<form action="{{ route('cotizaciones.update', $cotizacion->id_cotizacion) }}" method="POST">
+@csrf
+@method('PUT')
 
-    <label>Estado:</label><br>
-    <input type="text" step="0.01" name="estado_c" value="{{ $cotizacion->estado_c}}"><br><br>
+<input type="date" name="fecha_creacion" value="{{ $cotizacion->fecha_creacion }}">
+<input type="date" name="fecha_vigencia" value="{{ $cotizacion->fecha_vigencia }}">
+<input type="number" name="total_estimado" value="{{ $cotizacion->total_estimado }}">
+<input type="text" name="estado_c" value="{{ $cotizacion->estado_c }}">
 
-    <label>Cliente:</label><br>
-    <select name="id_usuario">
-    <option value="">Seleccione el cliente</option>
+<select name="id_usuario">
+@foreach($usuarios as $usuario)
+<option value="{{ $usuario->id_usuario }}">
+{{ $usuario->nombre_u }}
+</option>
+@endforeach
+</select>
 
-    @foreach($usuarios as $usuario)
-        <option value="{{ $usuario->id_usuario }}"
-            {{ $usuario->id_usuario == $usuario->id_usuario ? 'selected' : '' }}>
-            {{ $usuario->nombre_u }}
-        </option>
-    @endforeach
-
-</select><br><br>
-
-    <button type="submit">Actualizar</button>
-</form>
+<button class="btn">Actualizar</button>
 
 <a href="{{ route('cotizaciones.index') }}">
-    <button>← Volver a Cotizaciones</button>
+<button type="button" class="btn btn-secondary">← Volver</button>
 </a>
+
+</form>
+</div>
+
+@endsection

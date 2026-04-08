@@ -1,83 +1,51 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Nueva cotización</title>
-</head>
-<body>
+@extends('layouts.admin')
+
+@section('content')
 
 <h1>Registrar Detalle de Cotización</h1>
 
+<div class="form-box">
 <form action="{{ route('detalle_cotizaciones.store') }}" method="POST">
-    @csrf
+@csrf
 
+<select name="id_cotizacion">
+@foreach($cotizaciones as $cotizacion)
+<option value="{{ $cotizacion->id_cotizacion }}">
+Cotización #{{ $cotizacion->id_cotizacion }} - {{ $cotizacion->usuario->nombre_u }}
+</option>
+@endforeach
+</select>
 
-    <label>Cotización / Cliente:</label><br>
-    <select name="id_cotizacion" required>
-        <option value="">Seleccione</option>
+<select name="id_producto">
+@foreach($productos as $producto)
+<option value="{{ $producto->id_producto }}">
+{{ $producto->nombre_p }}
+</option>
+@endforeach
+</select>
 
-        @foreach($cotizaciones as $cotizacion)
-            <option value="{{ $cotizacion->id_cotizacion }}">
-                Cotización #{{ $cotizacion->id_cotizacion }}
-                - {{ $cotizacion->usuario->nombre_u }}
-            </option>
-        @endforeach
-    </select><br><br>
+<input type="text" name="descripcion_cot" placeholder="Descripción">
+<input type="number" id="cantidad" name="cantidad">
+<input type="number" id="precio" name="precio_unitario">
+<input type="number" id="subtotal" name="subtotal" readonly>
 
-
-    
-    <label>Producto:</label><br>
-    <select name="id_producto" required>
-        <option value="">Seleccione</option>
-
-        @foreach($productos as $producto)
-            <option value="{{ $producto->id_producto }}">
-                {{ $producto->nombre_p }}
-            </option>
-        @endforeach
-    </select><br><br>
-
-
-
-    <label>Descripción:</label><br>
-    <input type="text" name="descripcion_cot" required><br><br>
-
-
-    
-    <label>Cantidad:</label><br>
-    <input type="number" id="cantidad" name="cantidad" step="1" required><br><br>
-
-
-    
-    <label>Precio unitario:</label><br>
-    <input type="number" id="precio" name="precio_unitario" step="0.01" required><br><br>
-
-
-    
-    <label>Subtotal:</label><br>
-    <input type="number" id="subtotal" name="subtotal" step="0.01" readonly><br><br>
-
-    <button type="submit">Guardar</button>
-</form>
-<script>
-    
-function calcularSubtotal() {
-    let cantidad = parseFloat(document.getElementById('cantidad').value) || 0;
-    let precio   = parseFloat(document.getElementById('precio').value) || 0;
-
-    let subtotal = cantidad * precio;
-
-    document.getElementById('subtotal').value = subtotal.toFixed(2);
-}
-
-document.getElementById('cantidad').addEventListener('input', calcularSubtotal);
-document.getElementById('precio').addEventListener('input', calcularSubtotal);
-</script>
-
+<button class="btn">Guardar</button>
 
 <a href="{{ route('detalle_cotizaciones.index') }}">
-    <button>← Volver a Detalle Cotizaciones</button>
+<button type="button" class="btn btn-secondary">← Volver</button>
 </a>
 
-</body>
-</html>
+</form>
+</div>
+
+<script>
+function calcularSubtotal() {
+let c = parseFloat(document.getElementById('cantidad').value) || 0;
+let p = parseFloat(document.getElementById('precio').value) || 0;
+document.getElementById('subtotal').value = (c * p).toFixed(2);
+}
+cantidad.oninput = calcularSubtotal;
+precio.oninput = calcularSubtotal;
+</script>
+
+@endsection

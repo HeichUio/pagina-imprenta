@@ -1,62 +1,35 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Editar entrada de producto</title>
-</head>
-<body>
+@extends('layouts.admin')
 
-<h1>Editar entrada de producto</h1>
+@section('content')
 
-@if ($errors->any())
-    <div style="color:red;">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+<h1>Editar Entrada</h1>
 
+<div class="form-box">
 <form action="{{ route('entradainventarios.update', $entradainventario->id_entrada) }}" method="POST">
-    @csrf
-    @method('PUT')
+@csrf
+@method('PUT')
 
-    <label>Producto:</label>
-    <select name="id_producto">
-        @foreach ($productos as $producto)
-            <option value="{{ $producto->id_producto }}"
-                {{ $producto->id_producto == $entradainventario->id_producto ? 'selected' : '' }}>
-                {{ $producto->nombre_p }}
-            </option>
-        @endforeach
-    </select>
-    <br><br>
+<select name="id_producto">
+@foreach ($productos as $producto)
+<option value="{{ $producto->id_producto }}"
+{{ $producto->id_producto == $entradainventario->id_producto ? 'selected' : '' }}>
+{{ $producto->nombre_p }}
+</option>
+@endforeach
+</select>
 
-    <label>Cantidad:</label>
-    <input type="number" name="cantidad" value="{{ $entradainventario->cantidad }}" required>
-    <br><br>
+<input type="number" name="cantidad" value="{{ $entradainventario->cantidad }}">
+<input type="number" step="0.01" name="costo_unitario" value="{{ $entradainventario->costo_unitario }}">
+<input type="text" name="observaciones" value="{{ $entradainventario->observaciones }}">
+<input type="date" name="fecha_entrada" value="{{ $entradainventario->fecha_entrada }}">
 
-    <label>Costo unitario:</label>
-    <input type="number" step="0.01" name="costo_unitario" value="{{ $entradainventario->costo_unitario }}" required>
-    <br><br>
-
-    <label>Observaciones:</label>
-    <textarea name="observaciones">{{ $entradainventario->observaciones }}</textarea>
-    <br><br>
-
-    <label>Fecha entrada:</label>
-    <input type="date" name="fecha_entrada" value="{{ $entradainventario->fecha_entrada }}" required>
-    <br><br>
-
-    <button type="submit">Actualizar</button>
-</form>
-
-<br>
+<button class="btn">Actualizar</button>
 
 <a href="{{ route('entradainventarios.index') }}">
-    <button type="button">← Volver a Entradas</button>
+<button type="button" class="btn btn-secondary">← Volver</button>
 </a>
 
-</body>
-</html>
+</form>
+</div>
+
+@endsection

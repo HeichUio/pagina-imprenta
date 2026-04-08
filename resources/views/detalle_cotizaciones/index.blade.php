@@ -1,83 +1,66 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Detalle de cotizaciones</title>
-</head>
-<body>
+@extends('layouts.admin')
+
+@section('content')
 
 <h1>Lista de detalles de cotización</h1>
 
 @if(session('success'))
-    <p style="color: green;">
-        {{ session('success') }}
-    </p>
+    <p style="color: green;">{{ session('success') }}</p>
 @endif
 
 <a href="{{ route('detalle_cotizaciones.create') }}">
-    <button type="button">Nueva cotización</button>
+    <button class="btn btn-primary">Nuevo detalle</button>
 </a>
 
-<a href="{{ route('usuarios.create') }}">
-    <button type="button">Registar usuario </button>
-</a>
 <a href="{{ route('admin.inicio') }}">
-    <button>← Volver al Inicio</button>
+    <button class="btn">← Volver</button>
 </a>
 
-<hr>
-<hr>
+<table>
+<tr>
+    <th>ID</th>
+    <th>Cliente</th>
+    <th>Producto</th>
+    <th>Descripción</th>
+    <th>Cantidad</th>
+    <th>Precio</th>
+    <th>Subtotal</th>
+    <th>Acciones</th>
+</tr>
 
-<table border="1" cellpadding="8">
-    <tr>
-        <th>ID</th>
-        <th>Cliente</th>
-        <th>Producto</th>
-        <th>Descripción</th>
-        <th>Cantidad</th>
-        <th>Precio unitario</th>
-        <th>Subtotal</th>
-        <th>Acciones</th>
-    </tr>
+@forelse ($detalle_cotizaciones as $detalle)
+<tr>
+    <td>{{ $detalle->id_detalle }}</td>
 
-    @forelse ($detalle_cotizaciones as $detalle_cotizacion)
-        <tr>
-        
-            <td>{{ $detalle_cotizacion->id_detalle }}</td>
+    <td>
+        {{ optional($detalle->cotizacion->usuario)->nombre_u }}
+    </td>
 
-            <td>
-                {{ optional($detalle_cotizacion->cotizacion->usuario)->nombre_u }}
-            </td>
+    <td>{{ $detalle->producto->nombre_p }}</td>
 
-            <td>{{ $detalle_cotizacion->producto->nombre_p }}</td>
+    <td>{{ $detalle->descripcion_cot }}</td>
+    <td>{{ $detalle->cantidad }}</td>
+    <td>{{ $detalle->precio_unitario }}</td>
+    <td>{{ $detalle->subtotal }}</td>
 
-            <td>{{ $detalle_cotizacion->descripcion_cot }}</td>
-            <td>{{ $detalle_cotizacion->cantidad }}</td>
-            <td>{{ $detalle_cotizacion->precio_unitario }}</td>
-            <td>{{ $detalle_cotizacion->subtotal }}</td>
-            
-            <td>
-                <a href="{{ route('detalle_cotizaciones.edit', $detalle_cotizacion->id_detalle) }}">
-                    <button type="button">Editar</button>
-                </a>
+    <td>
+        <a href="{{ route('detalle_cotizaciones.edit', $detalle->id_detalle) }}">
+            <button class="btn btn-primary">Editar</button>
+        </a>
 
-                <form action="{{ route('detalle_cotizaciones.destroy', $detalle_cotizacion->id_detalle) }}"
-                      method="POST"
-                      style="display:inline;"
-                      onsubmit="return confirm('¿Seguro que deseas eliminar esta cotización?');">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit">Eliminar</button>
-                </form>
-            </td>
-        </tr>
-    @empty
-        <tr>
-            <td colspan="8">No hay registros.</td>
-        </tr>
-    @endforelse
+        <form action="{{ route('detalle_cotizaciones.destroy', $detalle->id_detalle) }}" method="POST" style="display:inline;">
+            @csrf
+            @method('DELETE')
+            <button class="btn btn-danger">Eliminar</button>
+        </form>
+    </td>
+</tr>
+@empty
+<tr>
+    <td colspan="8">No hay registros</td>
+</tr>
+@endforelse
 
 </table>
 
-</body>
-</html>
+@endsection

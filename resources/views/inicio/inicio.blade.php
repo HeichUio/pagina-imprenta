@@ -1,57 +1,49 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Sistema Imprenta</title>
-</head>
-<body>
+@extends('layouts.admin')
 
-    <h1>Bienvenido al Sistema de Gestión de la Imprenta</h1>
-    <p>Selecciona una opción:</p>
+@section('content')
 
-    <hr>
+<h1>Dashboard</h1>
+<p>Resumen general del sistema</p>
 
-    <h2>Administración</h2>
+<div class="grid">
 
-    <a href="{{ route('usuarios.index') }}">
-        <button>Usuarios</button>
-    </a>
+    <div class="card">
+        <h3>Usuarios</h3>
+        <p>{{ $usuarios ?? 0 }}</p>
+    </div>
 
-    <a href="{{ route('proveedores.index') }}">
-        <button>Proveedores</button>
-    </a>
+    <div class="card">
+        <h3>Productos</h3>
+        <p>{{ $productos ?? 0 }}</p>
+    </div>
 
-    <a href="{{ route('productos.index') }}">
-        <button>Productos</button>
-    </a>
+    <div class="card">
+        <h3>Cotizaciones</h3>
+        <p>{{ $cotizaciones ?? 0 }}</p>
+    </div>
 
-    <hr>
+    <div class="card">
+        <h3>Producción</h3>
+        <p>{{ $produccion ?? 0 }}</p>
+    </div>
 
-    <h2>Operaciones</h2>
+</div>
 
-    <a href="{{ route('cotizaciones.index') }}">
-        <button>Cotizaciones</button>
-    </a>
+<h2>Administración</h2>
 
-    <a href="{{ route('detalle_cotizaciones.index') }}">
-        <button>Detalle Cotizaciones</button>
-    </a>
+<div class="grid">
+    <a href="{{ route('usuarios.index') }}" class="card">Usuarios</a>
+    <a href="{{ route('proveedores.index') }}" class="card">Proveedores</a>
+    <a href="{{ route('productos.index') }}" class="card">Productos</a>
+</div>
 
-    <a href="{{ route('registro_producciones.index') }}">
-        <button>Registro Producción</button>
-    </a>
+<h2>Operaciones</h2>
 
-    <a href="{{ route('entradainventarios.index') }}">
-        <button>Entrada Inventario</button>
-    </a>
+<div class="grid">
+    <a href="{{ route('cotizaciones.index') }}" class="card">Cotizaciones</a>
+    <a href="{{ route('detalle_cotizaciones.index') }}" class="card">Detalle</a>
+    <a href="{{ route('registro_producciones.index') }}" class="card">Producción</a>
+    <a href="{{ route('entradainventarios.index') }}" class="card">Inventario</a>
+</div>
 
-    <hr>
-
-    <h2>Sesión</h2>
-
-    <form method="POST" action="{{ route('logout') }}">
-        @csrf
-        <button type="submit">Cerrar Sesión</button>
-    </form>
-
-</body>
-</html>
+@endsection

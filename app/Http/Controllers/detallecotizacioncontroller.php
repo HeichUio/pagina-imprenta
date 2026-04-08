@@ -47,25 +47,27 @@ class DetalleCotizacionController extends Controller
             ->with('success', 'Registro creado correctamente');
     }
 
-    public function show(DetalleCotizacion $detalle_cotizacion)
+   public function show($id)
     {
-        $detalle_cotizacion->load(['cotizacion','producto']);
+        $detalle_cotizacion = DetalleCotizacion::with(['cotizacion','producto'])
+            ->findOrFail($id);
 
         return view('detalle_cotizaciones.show', compact('detalle_cotizacion'));
     }
 
-    public function edit(DetalleCotizacion $detalle_cotizacion)
+    public function edit($id)
     {
-        $productos = Producto::all();
+        $detalle_cotizacion = DetalleCotizacion::findOrFail($id);
 
+        $productos = Producto::all();
         $cotizaciones = Cotizacion::with('usuario')->get();
 
-      return view('detalle_cotizaciones.edit', compact('detalle_cotizacion','productos','cotizaciones'));
-}
+        return view('detalle_cotizaciones.edit', compact('detalle_cotizacion','productos','cotizaciones'));
+    }
     
     
 
-    public function update(Request $request, DetalleCotizacion $detalle_cotizacion)
+  public function update(Request $request, $id)
     {
         $request->validate([
             'descripcion_cot' => 'required|string',
@@ -76,14 +78,17 @@ class DetalleCotizacionController extends Controller
             'id_producto' => 'required|exists:productos,id_producto'
         ]);
 
+        $detalle_cotizacion = DetalleCotizacion::findOrFail($id);
+
         $detalle_cotizacion->update($request->all());
 
         return redirect()->route('detalle_cotizaciones.index')
             ->with('success', 'Actualización correcta');
     }
 
-    public function destroy(DetalleCotizacion $detalle_cotizacion)
+    public function destroy($id)
     {
+        $detalle_cotizacion = DetalleCotizacion::findOrFail($id);
         $detalle_cotizacion->delete();
 
         return redirect()->route('detalle_cotizaciones.index')

@@ -1,77 +1,54 @@
-<h1> Editar cotizacion</h1>
+@extends('layouts.admin')
 
+@section('content')
 
+<h1>Editar Detalle</h1>
+
+<div class="form-box">
 <form action="{{ route('detalle_cotizaciones.update', $detalle_cotizacion) }}" method="POST">
-    @csrf
-    @method('PUT')
+@csrf
+@method('PUT')
 
-    
-    <label>Cotización:</label><br>
-    <select name="id_cotizacion" required>
-        <option value="">Seleccione una cotización</option>
+<select name="id_cotizacion">
+@foreach($cotizaciones as $cotizacion)
+<option value="{{ $cotizacion->id_cotizacion }}"
+{{ $cotizacion->id_cotizacion == $detalle_cotizacion->id_cotizacion ? 'selected' : '' }}>
+{{ $cotizacion->usuario->nombre_u }}
+</option>
+@endforeach
+</select>
 
-        @foreach($cotizaciones as $cotizacion)
-            <option value="{{ $cotizacion->id_cotizacion }}"
-                {{ $cotizacion->id_cotizacion == $detalle_cotizacion->id_cotizacion ? 'selected' : '' }}>
-                Cotización #{{ $cotizacion->id_cotizacion }} -
-                {{ $cotizacion->usuario->nombre_u }}
-            </option>
-        @endforeach
-    </select><br><br>
+<select name="id_producto">
+@foreach($productos as $producto)
+<option value="{{ $producto->id_producto }}"
+{{ $producto->id_producto == $detalle_cotizacion->id_producto ? 'selected' : '' }}>
+{{ $producto->nombre_p }}
+</option>
+@endforeach
+</select>
 
+<input type="text" name="descripcion_cot" value="{{ $detalle_cotizacion->descripcion_cot }}">
+<input type="number" id="cantidad" name="cantidad" value="{{ $detalle_cotizacion->cantidad }}">
+<input type="number" id="precio" name="precio_unitario" value="{{ $detalle_cotizacion->precio_unitario }}">
+<input type="number" id="subtotal" name="subtotal" value="{{ $detalle_cotizacion->subtotal }}" readonly>
 
-    
-    <label>Producto:</label><br>
-    <select name="id_producto" required>
-        <option value="">Seleccione un producto</option>
-
-        @foreach($productos as $producto)
-            <option value="{{ $producto->id_producto }}"
-                {{ $producto->id_producto == $detalle_cotizacion->id_producto ? 'selected' : '' }}>
-                {{ $producto->nombre_p }}
-            </option>
-        @endforeach
-    </select><br><br>
-
-
-
-    <label>Descripción:</label><br>
-    <input type="text" name="descripcion_cot"
-        value="{{ $detalle_cotizacion->descripcion_cot }}"><br><br>
-
-    <label>Cantidad:</label><br>
-    <input type="number" step="0.01" id="cantidad" name="cantidad"
-    value="{{ $detalle_cotizacion->cantidad }}"><br><br>
-
-
-    <label>Precio unitario:</label><br>
-    <input type="number" step="0.01" id="precio" name="precio_unitario"
-    value="{{ $detalle_cotizacion->precio_unitario }}"><br><br>
-
-
-    <label>Subtotal:</label><br>
-    <input type="number" step="0.01" id="subtotal" name="subtotal"
-    value="{{ $detalle_cotizacion->subtotal }}" readonly><br><br>
-
-
-
-    <button type="submit">Actualizar</button>
-</form>
-<script>
-    
-function calcularSubtotal() {
-    let cantidad = parseFloat(document.getElementById('cantidad').value) || 0;
-    let precio   = parseFloat(document.getElementById('precio').value) || 0;
-
-    let subtotal = cantidad * precio;
-
-    document.getElementById('subtotal').value = subtotal.toFixed(2);
-}
-
-document.getElementById('cantidad').addEventListener('input', calcularSubtotal);
-document.getElementById('precio').addEventListener('input', calcularSubtotal);
-</script>
+<button class="btn">Actualizar</button>
 
 <a href="{{ route('detalle_cotizaciones.index') }}">
-    <button>← Volver a Detalle Cotizaciones</button>
+<button type="button" class="btn btn-secondary">← Volver</button>
 </a>
+
+</form>
+</div>
+
+<script>
+function calcularSubtotal() {
+let c = parseFloat(document.getElementById('cantidad').value) || 0;
+let p = parseFloat(document.getElementById('precio').value) || 0;
+document.getElementById('subtotal').value = (c * p).toFixed(2);
+}
+cantidad.oninput = calcularSubtotal;
+precio.oninput = calcularSubtotal;
+</script>
+
+@endsection

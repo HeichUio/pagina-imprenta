@@ -37,14 +37,15 @@ class RegistroProduccionController extends Controller
             ->with('success', 'Registro creado correctamente');
     }
 
-    public function edit(RegistroProduccion $registroProduccion)
+    public function edit($id)
     {
+        $registroProduccion = RegistroProduccion::findOrFail($id);
         $detalle_cotizaciones = DetalleCotizacion::with('producto')->get();
 
         return view('registro_producciones.edit', compact('registroProduccion', 'detalle_cotizaciones'));
     }
 
-    public function update(Request $request, RegistroProduccion $registroProduccion)
+   public function update(Request $request, $id)
     {
         $request->validate([
             'fecha_salida' => 'required|date',
@@ -53,14 +54,17 @@ class RegistroProduccionController extends Controller
             'id_detalle' => 'required|exists:detalle_cotizacion,id_detalle'
         ]);
 
+        $registroProduccion = RegistroProduccion::findOrFail($id);
+
         $registroProduccion->update($request->all());
 
         return redirect()->route('registro_producciones.index')
             ->with('success', 'Registro actualizado correctamente');
     }
 
-    public function destroy(RegistroProduccion $registroProduccion)
+   public function destroy($id)
     {
+        $registroProduccion = RegistroProduccion::findOrFail($id);
         $registroProduccion->delete();
 
         return redirect()->route('registro_producciones.index')

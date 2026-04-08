@@ -1,20 +1,38 @@
-<h1> Editar provedor</h1>
-<form action="{{ route('proveedores.update', $proveedor) }}" method="POST"> 
-    @csrf
-    @method('PUT')
-    
-    <label>Nombre:</label><br>
-    <input type="text" name="nombre_prov" value="{{ $proveedor->nombre_prov}}"><br>
+@extends('layouts.admin')
 
-    <label>Teléfono:</label><br>
-    <input type="text" name="telefono_prov" value="{{ $proveedor->telefono_prov}}" ><br>
+@section('content')
 
-    <label>Correo:</label><br>
-    <input type="email" name="correo_pro" value="{{ $proveedor->correo_pro}}" ><br>
+<h1>Editar Proveedor</h1>
 
-    <button type="submit">Actualizar</button>
-</form>
+<div class="form-box">
+
+<form action="{{ route('proveedores.update', $proveedor) }}" method="POST">
+@csrf
+@method('PUT')
+
+<label>Nombre</label>
+<input type="text" name="nombre_prov" value="{{ $proveedor->nombre_prov }}" required>
+
+<label>Teléfono</label>
+<input type="text" name="telefono_prov" value="{{ $proveedor->telefono_prov }}" required>
+
+<label>Correo</label>
+<input type="email" name="correo_pro" value="{{ $proveedor->correo_pro }}" required>
+
+<br>
+
+<button type="submit" class="btn btn-success">
+    Actualizar
+</button>
 
 <a href="{{ route('proveedores.index') }}">
-    <button>← Volver a Proveedores</button>
+    <button type="button" class="btn">
+        ← Volver
+    </button>
 </a>
+
+</form>
+
+</div>
+
+@endsection

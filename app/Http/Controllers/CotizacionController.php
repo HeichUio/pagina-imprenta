@@ -50,25 +50,26 @@ class CotizacionController extends Controller
     }
 
 
-    public function show(Cotizacion $cotizacion)
+    public function show($id)
     {
     
-        $cotizacion->load('usuario');
+         $cotizacion = Cotizacion::with('usuario')->findOrFail($id);
 
         return view('cotizaciones.show', compact('cotizacion'));
     }
 
 
-    public function edit(Cotizacion $cotizacion)
+    public function edit($id)
     {
-    
+
+        $cotizacion = Cotizacion::findOrFail($id);
         $usuarios = Usuario::all();
 
         return view('cotizaciones.edit', compact('cotizacion', 'usuarios'));
     }
 
 
-    public function update(Request $request, Cotizacion $cotizacion)
+    public function update(Request $request,  $id)
     {
         $request->validate([
             'fecha_creacion'   => 'required|date',
@@ -78,6 +79,9 @@ class CotizacionController extends Controller
             'id_usuario'       => 'required|exists:usuarios,id_usuario'
         ]);
 
+
+        $cotizacion = Cotizacion::findOrFail($id);
+
         $cotizacion->update($request->only([
             'fecha_creacion',
             'fecha_vigencia',
@@ -85,14 +89,16 @@ class CotizacionController extends Controller
             'estado_c',
             'id_usuario'
         ]));
+        
 
         return redirect()->route('cotizaciones.index')
             ->with('success', 'Cotización actualizada correctamente');
     }
 
 
-    public function destroy(Cotizacion $cotizacion)
+    public function destroy($id)
     {
+        $cotizacion = Cotizacion::findOrFail($id);
         $cotizacion->delete();
 
         return redirect()->route('cotizaciones.index')

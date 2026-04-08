@@ -11,10 +11,17 @@ class AdminMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->role === 'admin') {
+        // 🔥 SI NO ESTÁ LOGUEADO → LOGIN
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+
+        // 🔥 SI ES ADMIN → OK
+        if (auth()->user()->role === 'admin') {
             return $next($request);
         }
 
+        // 🔥 SI ES CLIENTE → LO SACAS DEL ADMIN
         return redirect()->route('cliente.bienvenida');
     }
 }

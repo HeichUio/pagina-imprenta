@@ -1,54 +1,46 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Proveedores</title>
-</head>
-<body>
+@extends('layouts.admin')
+
+@section('content')
 
 <h1>Lista de Proveedores</h1>
 
 <a href="{{ route('proveedores.create') }}">
-    <button>Nuevo proveedor</button>
+    <button class="btn btn-primary">Nuevo proveedor</button>
 </a>
+
 <a href="{{ route('admin.inicio') }}">
-    <button>← Volver al Inicio</button>
+    <button class="btn">← Volver</button>
 </a>
 
-<hr>
+<table>
+<tr>
+    <th>ID</th>
+    <th>Nombre</th>
+    <th>Teléfono</th>
+    <th>Correo</th>
+    <th>Acciones</th>
+</tr>
 
-<hr>
-
-<table border="1" cellpadding="5">
-    <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Teléfono</th>
-        <th>Correo</th>
-        <th>Acciones</th>
-    </tr>
-
-    @foreach ($proveedores as $proveedor)
-        <tr>
-            <td>{{ $proveedor->id_proveedor }}</td>
-            <td>{{ $proveedor->nombre_prov }}</td>
-            <td>{{ $proveedor->telefono_prov }}</td>
-            <td>{{ $proveedor->correo_pro }}</td>
-            <td>
-           <a href="{{ route('proveedores.edit', $proveedor) }}">
-            <button type="button">Editar</button>
-           </a>
+@foreach ($proveedores as $proveedor)
+<tr>
+    <td>{{ $proveedor->id_proveedor }}</td>
+    <td>{{ $proveedor->nombre_prov }}</td>
+    <td>{{ $proveedor->telefono_prov }}</td>
+    <td>{{ $proveedor->correo_pro }}</td>
+    <td>
+        <a href="{{ route('proveedores.edit', $proveedor) }}">
+            <button class="btn btn-primary">Editar</button>
+        </a>
 
         <form action="{{ route('proveedores.destroy', $proveedor) }}" method="POST" style="display:inline;">
-        @csrf
-        @method('DELETE')
-        <button type="submit">Eliminar</button>
-    </form>
-</td>
-        </tr>
-    @endforeach
+            @csrf
+            @method('DELETE')
+            <button class="btn btn-danger">Eliminar</button>
+        </form>
+    </td>
+</tr>
+@endforeach
 
 </table>
 
-</body>
-</html>
+@endsection

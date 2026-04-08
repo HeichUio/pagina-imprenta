@@ -1,31 +1,24 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Nuevo Proveedor</title>
-</head>
-<body>
+@extends('layouts.admin')
+
+@section('content')
 
 <h1>Registrar Proveedor</h1>
 
+<div class="form-box">
 <form action="{{ route('proveedores.store') }}" method="POST">
-    @csrf
+@csrf
 
-    <label>Nombre:</label><br>
-    <input type="text" name="nombre_prov" placeholder="nombre"><br>
+<input type="text" name="nombre_prov" placeholder="Nombre">
+<input type="text" name="telefono_prov" placeholder="Teléfono">
+<input type="email" name="correo_pro" placeholder="Correo">
 
-    <label>Teléfono:</label><br>
-    <input type="text" name="telefono_prov" placeholder="Telefono"><br>
-
-    <label>Correo:</label><br>
-    <input type="email" name="correo_pro" placeholder="gmail"><br>
-
-    <button type="submit">Guardar</button>
-</form>
+<button class="btn">Guardar</button>
 
 <a href="{{ route('proveedores.index') }}">
-    <button>← Volver a Proveedores</button>
+<button type="button" class="btn btn-secondary">← Volver</button>
 </a>
 
-</body>
-</html>
+</form>
+</div>
+
+@endsection

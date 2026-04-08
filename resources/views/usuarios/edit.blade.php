@@ -1,33 +1,42 @@
-<h1> Editar Usuario</h1>
+@extends('layouts.admin')
+
+@section('content')
+
+<h1>Editar Usuario</h1>
+
+<div class="form-box">
 <form action="{{ route('usuarios.update', $usuario) }}" method="POST"> 
-    @csrf
-    @method('PUT')
-    
-    <label>Nombre:</label><br>
-    <input type="text" name="nombre_u" value="{{ $usuario->nombre_u }}"><br>
+@csrf
+@method('PUT')
 
-    <label>Teléfono:</label><br>
-    <input type="text" name="telefono_u" value="{{ $usuario->telefono_u }}"><br>
+<label>Nombre:</label>
+<input type="text" name="nombre_u" value="{{ $usuario->nombre_u }}">
 
-    <label>Correo:</label><br>
-    <input type="email" name="correo_u" value="{{ $usuario->correo_u }}"><br>
+<label>Teléfono:</label>
+<input type="text" name="telefono_u" value="{{ $usuario->telefono_u }}">
 
-    <label>Codigo postal:</label><br>
-    <input type="text" name="codigo_postal" value="{{ $usuario->codigo_postal }}"><br>
+<label>Correo:</label>
+<input type="email" name="correo_u" value="{{ $usuario->correo_u }}">
 
-    <label>Tipo de usuario</label><br>
-    <select name="role">
-        <option value="admin" {{ $usuario->role == 'admin' ? 'selected' : '' }}>Administrador</option>
-        <option value="cliente" {{ $usuario->role == 'cliente' ? 'selected' : '' }}>Cliente</option>
-    </select><br>
+<label>Código postal:</label>
+<input type="text" name="codigo_postal" value="{{ $usuario->codigo_postal }}">
 
-    <label>Password:</label><br>
-    <input type="password" name="password"><br>
+<label>Tipo de usuario:</label>
+<select name="role">
+    <option value="admin" {{ $usuario->role == 'admin' ? 'selected' : '' }}>Administrador</option>
+    <option value="cliente" {{ $usuario->role == 'cliente' ? 'selected' : '' }}>Cliente</option>
+</select>
 
-    <button type="submit">Actualizar</button>
-    
-</form>
+<label>Password (opcional):</label>
+<input type="password" name="password">
+
+<button class="btn">Actualizar</button>
 
 <a href="{{ route('usuarios.index') }}">
-    <button type="button">← Volver a Usuarios</button>
+<button type="button" class="btn btn-secondary">← Volver a Usuarios</button>
 </a>
+
+</form>
+</div>
+
+@endsection

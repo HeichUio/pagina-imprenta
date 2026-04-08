@@ -1,63 +1,48 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Registrar Usuario</title>
-    <link rel="stylesheet" href="{{ asset('css/usuarios.css') }}">
-</head>
-<body>
+@extends('layouts.admin')
 
-<form class="login-form" action="{{ route('usuarios.store') }}" method="POST">
+@section('content')
+
+<h1>Registrar Usuario</h1>
+
+<div class="form-box">
+
+<form action="{{ route('usuarios.store') }}" method="POST">
     @csrf
 
-    <h1>Registrar Usuario</h1>
+    <label>Nombre</label>
+    <input type="text" name="nombre_u" required>
 
-    <div class="form-input-material">
-        <input type="text" name="nombre_u" placeholder=" " required>
-        <label>Nombre</label>
-    </div>
+    <label>Teléfono</label>
+    <input type="text" name="telefono_u" required>
 
-    <div class="form-input-material">
-        <input type="text" name="telefono_u" placeholder=" " required>
-        <label>Teléfono</label>
-    </div>
+    <label>Correo</label>
+    <input type="email" name="correo_u" required>
 
-    <div class="form-input-material">
-        <input type="email" name="correo_u" placeholder=" " required>
-        <label>Correo</label>
-    </div>
+    <label>Código Postal</label>
+    <input type="text" name="codigo_postal" required>
 
-    <div class="form-input-material">
-        <input type="text" name="codigo_postal" placeholder=" " required>
-        <label>Código Postal</label>
-    </div>
+    <label>Tipo de Usuario</label>
+    <select name="role" required>
+        <option value="">Seleccione</option>
+        <option value="admin">Administrador</option>
+        <option value="cliente">Cliente</option>
+    </select>
 
-    <div class="form-input-material">
-        <select name="role" required>
-            <option value="">Seleccione tipo de usuario</option>
-            <option value="admin">Administrador</option>
-            <option value="cliente">Cliente</option>
-        </select>
-        
-    </div>
+    <label>Password</label>
+    <input type="password" name="password" required>
 
-    <div class="form-input-material">
-        <input type="password" name="password" placeholder=" " required>
-        <label>Password</label>
-    </div>
+    <br>
 
-    <button type="submit" class="btn">
+    <button type="submit" class="btn btn-success">
         Guardar
     </button>
 
-    <!-- Botón volver dentro de la caja y funcionando -->
-    <a href="{{ route('usuarios.index') }}" style="width:100%; text-decoration:none;">
-        <button type="button" class="btn btn-secondary">
-            ← Volver a Usuarios
-        </button>
+    <a href="{{ route('usuarios.index') }}" class="btn">
+        ← Volver
     </a>
 
 </form>
 
-</body>
-</html>
+</div>
+
+@endsection

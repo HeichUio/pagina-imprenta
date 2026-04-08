@@ -10,12 +10,22 @@ use Illuminate\Support\Facades\Auth;
 class ClienteMiddleware
 {
     public function handle(Request $request, Closure $next): Response
-    {
-        if (Auth::check() && Auth::user()->role === 'cliente') {
-            return $next($request);
-        }
+        {
+            // 🔥 SI NO ESTÁ LOGUEADO → NO BLOQUEAR NADA
+            if (!auth()->check()) {
+                return $next($request);
+            }
 
-        // Si no es cliente, lo mandamos al inicio admin
-        return redirect()->route('admin.inicio');
+            // 🔥 SI ES CLIENTE → OK
+            if (auth()->user()->role === 'cliente') {
+                return $next($request);
+            }
+
+            // 🔥 SI ES ADMIN → LO MANDAS A SU PANEL
+            if (auth()->user()->role === 'admin') {
+                return redirect()->route('admin.inicio');
+            }
+
+            return $next($request);
     }
 }

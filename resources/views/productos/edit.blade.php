@@ -1,46 +1,40 @@
-<h1> Editar Usuario</h1>
-<form action="{{ route('productos.update', $producto) }}" method="POST"> 
-    @csrf
-    @method('PUT')
-    
-    <label>Nombre:</label><br>
-    <input type="text" name="nombre_p" value="{{ $producto->nombre_p}}"><br><br>
+@extends('layouts.admin')
 
-    <label>Descripción:</label><br>
-    <input type="text" name="descripcion_p" value="{{ $producto->descripcion_p}}"><br><br>
+@section('content')
 
-    <label>Unidad de medida:</label><br>
-    <input type="text" name="unidad_m" value="{{ $producto->unidad_m}}"><br><br>
+<h1>Editar Producto</h1>
 
-    <label>Costo unitario:</label><br>
-    <input type="number" step="0.01" name="costo_unitario" value="{{ $producto->costo_unitario}}"><br><br>
+<div class="form-box">
+<form action="{{ route('productos.update', $producto) }}" method="POST">
+@csrf
+@method('PUT')
 
-    <label>Precio de venta:</label><br>
-    <input type="number" step="0.01" name="precio_venta" value="{{ $producto->precio_venta}}"><br><br>
+<input type="text" name="nombre_p" value="{{ $producto->nombre_p }}">
+<input type="text" name="descripcion_p" value="{{ $producto->descripcion_p }}">
+<input type="text" name="unidad_m" value="{{ $producto->unidad_m }}">
 
-    <label>Cantidad disponible:</label><br>
-    <input type="number" name="cantidad_disponible" value="{{ $producto->cantidad_disponible}}"><br><br>
+<input type="number" name="costo_unitario" value="{{ $producto->costo_unitario }}">
+<input type="number" name="precio_venta" value="{{ $producto->precio_venta }}">
+<input type="number" name="cantidad_disponible" value="{{ $producto->cantidad_disponible }}">
 
-    <label>Fecha de entrada:</label><br>
-    <input type="date" name="fecha_entrada" value="{{ $producto->fecha_entrada}}"><br><br>
+<input type="date" name="fecha_entrada" value="{{ $producto->fecha_entrada }}">
 
-    <label>Proveedor:</label><br>
-    <label>Proveedor:</label><br>
-    <select name="id_proveedor">
-    <option value="">Seleccione proveedor</option>
+<select name="id_proveedor">
+@foreach($proveedores as $proveedor)
+<option value="{{ $proveedor->id_proveedor }}"
+{{ $producto->id_proveedor == $proveedor->id_proveedor ? 'selected' : '' }}>
+{{ $proveedor->nombre_prov }}
+</option>
+@endforeach
+</select>
 
-    @foreach($proveedores as $proveedor)
-        <option value="{{ $proveedor->id_proveedor }}"
-            {{ $producto->id_proveedor == $proveedor->id_proveedor ? 'selected' : '' }}>
-            {{ $proveedor->nombre_prov }}
-        </option>
-    @endforeach
-
-</select><br><br>
-
-    <button type="submit">Actualizar</button>
-</form>
+<button class="btn">Actualizar</button>
 
 <a href="{{ route('productos.index') }}">
-    <button>← Volver a Productos</button>
+<button type="button" class="btn btn-secondary">← Volver</button>
 </a>
+
+</form>
+</div>
+
+@endsection
